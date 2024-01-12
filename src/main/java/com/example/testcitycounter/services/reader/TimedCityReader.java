@@ -18,9 +18,9 @@ public class TimedCityReader implements CityReader{
   }
 
   @Override
-  public void read(DictionaryAnalyzer analyzer, File file) {
+  public void read(DictionaryAnalyzer analyzer) {
     long start = System.currentTimeMillis();
-    cityReader.read(analyzer, file);
+    cityReader.read(analyzer);
     dataPrinter.println("Read time: " + (System.currentTimeMillis() - start) + " millis");
   }
 }

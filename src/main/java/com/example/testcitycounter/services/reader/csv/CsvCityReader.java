@@ -3,7 +3,7 @@ package com.example.testcitycounter.services.reader.csv;
 import com.example.testcitycounter.dto.CityDictionaryItem;
 import com.example.testcitycounter.enums.CsvCityColumn;
 import com.example.testcitycounter.services.analyzer.DictionaryAnalyzer;
-import com.example.testcitycounter.services.reader.CityReader;
+import com.example.testcitycounter.services.reader.AbstractCityReader;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -13,7 +13,7 @@ import java.util.Arrays;
 /**
  * Created by fedor.dydykin on 23.09.2023.
  */
-public class CsvCityReader implements CityReader {
+public class CsvCityReader extends AbstractCityReader {
 
   private int indexColumnCity;
   private int indexColumnStreet;
@@ -22,13 +22,16 @@ public class CsvCityReader implements CityReader {
 
   private int count = 0;
 
+  public CsvCityReader(File file) {
+    super(file);
+  }
 
   @Override
-  public void read(DictionaryAnalyzer analyzer, File file) {
+  public void read(DictionaryAnalyzer analyzer) {
     BufferedReader reader;
 
     try {
-      reader = new BufferedReader(new FileReader(file));
+      reader = new BufferedReader(new FileReader(this.file));
       String header = reader.readLine();
       header = header.replace("\"", "");
       String[] split = header.split(";");

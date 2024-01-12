@@ -13,9 +13,9 @@ public class CityReaderFactory {
 
   public static CityReader createCityReader(File file, DataPrinter dataPrinter) {
     if (file.getAbsolutePath().endsWith("." + FileExtension.CSV.name().toLowerCase())) {
-      return new TimedCityReader(new CsvCityReader(), dataPrinter);
+      return new TimedCityReader(new CsvCityReader(file), dataPrinter);
     } else if (file.getAbsolutePath().endsWith("." + FileExtension.XML.name().toLowerCase())) {
-      return new TimedCityReader(new XmlCityReader(), dataPrinter);
+      return new TimedCityReader(new XmlCityReader(file), dataPrinter);
     } else {
       throw new UnsupportedOperationException(
           "File " + file.getAbsolutePath() + " has unsupported extension.");

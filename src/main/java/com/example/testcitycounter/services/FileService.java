@@ -1,6 +1,7 @@
 package com.example.testcitycounter.services;
 
 import java.io.File;
+import java.io.InputStream;
 import java.net.URISyntaxException;
 import java.net.URL;
 
@@ -8,6 +9,7 @@ import java.net.URL;
  * Created by fedor.dydykin on 12.11.2023.
  */
 public class FileService {
+
   public static final String FILE_NAME_CSV = "default_files/address.csv";
   public static final String FILE_NAME_XML = "default_files/address.xml";
 
@@ -18,11 +20,11 @@ public class FileService {
   }
 
 
-  public File getDefaultCsvFile(){
+  public File getDefaultCsvFile() {
     return getFile(FILE_NAME_CSV);
   }
 
-  public File getDefaultXmlFile(){
+  public File getDefaultXmlFile() {
     return getFile(FILE_NAME_XML);
   }
 
@@ -31,12 +33,12 @@ public class FileService {
     if (resource == null) {
       throw new IllegalArgumentException("file not found!");
     } else {
-      try {
-        return new File(resource.toURI());
-      } catch (URISyntaxException e) {
-        throw new RuntimeException(e);
-      }
+      return new File(resource.getFile());
     }
+  }
+
+  private InputStream getFileInputStream(String fileName){
+    return getClass().getResourceAsStream("/file.txt");
   }
 
   public File getFileFromInput(String input) {

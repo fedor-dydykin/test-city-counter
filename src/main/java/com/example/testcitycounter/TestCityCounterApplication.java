@@ -39,7 +39,7 @@ public class TestCityCounterApplication {
               List.of(new DuplicatesAnalyzer(dataPrinter), new HouseCounter(dataPrinter))
           );
           final CityReader cityReader = CityReaderFactory.createCityReader(file, dataPrinter);
-          cityReader.read(nestedAnalyzer, file);
+          cityReader.read(nestedAnalyzer);
           nestedAnalyzer.printResults();
         }
       } catch (Exception e) {
