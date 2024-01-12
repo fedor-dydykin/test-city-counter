@@ -1,6 +1,6 @@
 # test-city-counter
 
-# SET JAVA_HOME="C:\app\java\jdk-17.0.4.101-hotspot"
-# ./gradlew run
-
-mvnw exec:java
+* build
+  * gradlew build
+* run (use jdk 17)
+  * java -Dfile.encoding=UTF8 -jar ./build/libs/test-city-counter-0.0.1-SNAPSHOT.jar
