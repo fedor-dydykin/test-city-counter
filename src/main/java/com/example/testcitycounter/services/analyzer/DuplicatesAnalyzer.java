@@ -4,8 +4,9 @@ import com.example.testcitycounter.dto.CityDictionaryItem;
 import com.example.testcitycounter.services.DataFormatter;
 import com.example.testcitycounter.services.printer.DataPrinter;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
-import java.util.Map.Entry;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
@@ -14,7 +15,8 @@ import java.util.stream.Collectors;
 public class DuplicatesAnalyzer implements DictionaryAnalyzer {
 
   private final DataPrinter dataPrinter;
-  private final HashMap<CityDictionaryItem, Short> dictionaryWithCounts = new HashMap<>();
+  private final Map<String, Short> dictionaryWithCounts = new HashMap<>();
+  private final Set<CityDictionaryItem> duplicates = new HashSet<>();
   private final DataFormatter dataFormatter = new DataFormatter();
 
   public DuplicatesAnalyzer(DataPrinter dataPrinter) {
@@ -23,8 +25,12 @@ public class DuplicatesAnalyzer implements DictionaryAnalyzer {
 
   @Override
   public void addItem(CityDictionaryItem cityDictionaryItem) {
-    short count = (short) (dictionaryWithCounts.getOrDefault(cityDictionaryItem, (short) 0) + 1);
-    dictionaryWithCounts.put(cityDictionaryItem, count);
+    short count = (short) (dictionaryWithCounts.getOrDefault(cityDictionaryItem.uniqueHash(), (short) 0) + 1);
+    dictionaryWithCounts.put(cityDictionaryItem.uniqueHash(), count);
+    if(count == 2) {
+      System.out.println("found a duplicate " + cityDictionaryItem);
+      duplicates.add(cityDictionaryItem);
+    }
   }
 
   @Override
@@ -39,9 +45,7 @@ public class DuplicatesAnalyzer implements DictionaryAnalyzer {
   }
 
   public Map<CityDictionaryItem, Short> getDuplicates() {
-    return dictionaryWithCounts.entrySet()
-        .stream()
-        .filter(entry -> entry.getValue() > 1)
-        .collect(Collectors.toMap(Entry::getKey, Entry::getValue));
+    return duplicates.stream()
+        .collect(Collectors.toMap(o -> o, o -> dictionaryWithCounts.get(o.uniqueHash())));
   }
 }

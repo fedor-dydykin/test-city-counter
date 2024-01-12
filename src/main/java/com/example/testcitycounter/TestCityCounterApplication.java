@@ -3,7 +3,7 @@ package com.example.testcitycounter;
 import com.example.testcitycounter.services.analyzer.DuplicatesAnalyzer;
 import com.example.testcitycounter.services.FileService;
 import com.example.testcitycounter.services.analyzer.HouseCounter;
-import com.example.testcitycounter.services.analyzer.NestedAnalazer;
+import com.example.testcitycounter.services.analyzer.NestedAnalyzer;
 import com.example.testcitycounter.services.printer.DataPrinter;
 import com.example.testcitycounter.services.printer.DataPrinterFactory;
 import com.example.testcitycounter.services.reader.CityReader;
@@ -35,12 +35,12 @@ public class TestCityCounterApplication {
         final File file = fileService.getFileFromInput(input);
         if (file != null) {
           dataPrinter.println("Reading file: " + file.getAbsolutePath() + "....");
-          NestedAnalazer nestedAnalazer = new NestedAnalazer(
+          NestedAnalyzer nestedAnalyzer = new NestedAnalyzer(
               List.of(new DuplicatesAnalyzer(dataPrinter), new HouseCounter(dataPrinter))
           );
           final CityReader cityReader = CityReaderFactory.createCityReader(file, dataPrinter);
-          cityReader.read(nestedAnalazer, file);
-          nestedAnalazer.printResults();
+          cityReader.read(nestedAnalyzer, file);
+          nestedAnalyzer.printResults();
         }
       } catch (Exception e) {
         dataPrinter.printError("Unexpected error", e);

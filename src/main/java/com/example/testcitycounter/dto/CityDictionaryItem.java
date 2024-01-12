@@ -1,5 +1,8 @@
 package com.example.testcitycounter.dto;
 
+import java.math.BigInteger;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.Objects;
 
 /**
@@ -9,8 +12,8 @@ public class CityDictionaryItem {
 
   private String city;
   private String street;
-  private Short house;
-  private Byte floor;
+  private short house;
+  private byte floor;
 
   public CityDictionaryItem() {
   }
@@ -67,6 +70,16 @@ public class CityDictionaryItem {
         && Objects.equals(street, cityDictionaryItem1.street)
         && Objects.equals(house, cityDictionaryItem1.house)
         && Objects.equals(floor, cityDictionaryItem1.floor);
+  }
+
+  public String uniqueHash(){
+    byte[] hash = new byte[0];
+    try {
+      hash = MessageDigest.getInstance("MD5").digest(this.toString().getBytes());
+    } catch (NoSuchAlgorithmException e) {
+      throw new RuntimeException(e);
+    }
+    return new BigInteger(1, hash).toString(16);
   }
 
   @Override
