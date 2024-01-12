@@ -1,5 +1,6 @@
 package com.example.testcitycounter;
 
+import com.example.testcitycounter.dto.SourceFile;
 import com.example.testcitycounter.services.analyzer.DuplicatesAnalyzer;
 import com.example.testcitycounter.services.FileService;
 import com.example.testcitycounter.services.analyzer.HouseCounter;
@@ -32,13 +33,13 @@ public class TestCityCounterApplication {
         break;
       }
       try {
-        final File file = fileService.getFileFromInput(input);
-        if (file != null) {
-          dataPrinter.println("Reading file: " + file.getAbsolutePath() + "....");
+        final SourceFile sourceFile = fileService.getFileFromInput(input);
+        if (sourceFile != null) {
+          dataPrinter.println("Reading file: " + sourceFile.fileName() + "....");
           NestedAnalyzer nestedAnalyzer = new NestedAnalyzer(
               List.of(new DuplicatesAnalyzer(dataPrinter), new HouseCounter(dataPrinter))
           );
-          final CityReader cityReader = CityReaderFactory.createCityReader(file, dataPrinter);
+          final CityReader cityReader = CityReaderFactory.createCityReader(sourceFile, dataPrinter);
           cityReader.read(nestedAnalyzer);
           nestedAnalyzer.printResults();
         }

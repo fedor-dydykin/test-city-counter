@@ -4,8 +4,8 @@ import com.example.testcitycounter.dto.CityDictionaryItem;
 import com.example.testcitycounter.enums.XmlCityAttribute;
 import com.example.testcitycounter.services.analyzer.DictionaryAnalyzer;
 import com.example.testcitycounter.services.reader.AbstractCityReader;
-import java.io.File;
-import java.io.FileReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
@@ -18,8 +18,8 @@ import org.xml.sax.helpers.DefaultHandler;
  */
 public class XmlCityReader extends AbstractCityReader {
 
-  public XmlCityReader(File file) {
-    super(file);
+  public XmlCityReader(InputStream inputStream) {
+    super(inputStream);
   }
 
   @Override
@@ -28,14 +28,14 @@ public class XmlCityReader extends AbstractCityReader {
     try {
       SAXParser saxParser = factory.newSAXParser();
 
-      InputSource source = new InputSource(new FileReader(file));
+      InputSource source = new InputSource(new InputStreamReader(inputStream));
 
       // utf-8
       source.setEncoding(StandardCharsets.UTF_8.displayName());
 
       saxParser.parse(source, new XmlHandler(analyzer));
     } catch (Exception e) {
-      throw new RuntimeException("Can't parse file " + file.getAbsolutePath(), e);
+      throw new RuntimeException("Can't parse file", e);
     }
   }
 

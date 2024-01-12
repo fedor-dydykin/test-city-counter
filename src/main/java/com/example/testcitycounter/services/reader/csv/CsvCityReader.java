@@ -5,9 +5,9 @@ import com.example.testcitycounter.enums.CsvCityColumn;
 import com.example.testcitycounter.services.analyzer.DictionaryAnalyzer;
 import com.example.testcitycounter.services.reader.AbstractCityReader;
 import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.Arrays;
 
 /**
@@ -22,8 +22,8 @@ public class CsvCityReader extends AbstractCityReader {
 
   private int count = 0;
 
-  public CsvCityReader(File file) {
-    super(file);
+  public CsvCityReader(InputStream inputStream) {
+    super(inputStream);
   }
 
   @Override
@@ -31,7 +31,7 @@ public class CsvCityReader extends AbstractCityReader {
     BufferedReader reader;
 
     try {
-      reader = new BufferedReader(new FileReader(this.file));
+      reader = new BufferedReader(new InputStreamReader(this.inputStream));
       String header = reader.readLine();
       header = header.replace("\"", "");
       String[] split = header.split(";");

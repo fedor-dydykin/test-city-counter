@@ -28,7 +28,6 @@ public class DuplicatesAnalyzer implements DictionaryAnalyzer {
     short count = (short) (dictionaryWithCounts.getOrDefault(cityDictionaryItem.uniqueHash(), (short) 0) + 1);
     dictionaryWithCounts.put(cityDictionaryItem.uniqueHash(), count);
     if(count == 2) {
-      System.out.println("found a duplicate " + cityDictionaryItem);
       duplicates.add(cityDictionaryItem);
     }
   }

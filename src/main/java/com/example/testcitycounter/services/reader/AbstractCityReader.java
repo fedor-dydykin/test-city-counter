@@ -1,15 +1,15 @@
 package com.example.testcitycounter.services.reader;
 
-import java.io.File;
+import java.io.InputStream;
 
 /**
  * Created by fedor.dydykin on 12.01.2024.
  */
 public abstract class AbstractCityReader implements CityReader{
 
-  protected final File file;
+  protected final InputStream inputStream;
 
-  public AbstractCityReader(File file){
-    this.file = file;
+  public AbstractCityReader(InputStream inputStream){
+    this.inputStream = inputStream;
   }
 }

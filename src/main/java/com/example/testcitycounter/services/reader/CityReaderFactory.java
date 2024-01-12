@@ -1,5 +1,6 @@
 package com.example.testcitycounter.services.reader;
 
+import com.example.testcitycounter.dto.SourceFile;
 import com.example.testcitycounter.enums.FileExtension;
 import com.example.testcitycounter.services.printer.DataPrinter;
 import com.example.testcitycounter.services.reader.csv.CsvCityReader;
@@ -11,14 +12,14 @@ import java.io.File;
  */
 public class CityReaderFactory {
 
-  public static CityReader createCityReader(File file, DataPrinter dataPrinter) {
-    if (file.getAbsolutePath().endsWith("." + FileExtension.CSV.name().toLowerCase())) {
-      return new TimedCityReader(new CsvCityReader(file), dataPrinter);
-    } else if (file.getAbsolutePath().endsWith("." + FileExtension.XML.name().toLowerCase())) {
-      return new TimedCityReader(new XmlCityReader(file), dataPrinter);
+  public static CityReader createCityReader(SourceFile sourceFile, DataPrinter dataPrinter) {
+    if (sourceFile.fileName().endsWith("." + FileExtension.CSV.name().toLowerCase())) {
+      return new TimedCityReader(new CsvCityReader(sourceFile.inputStream()), dataPrinter);
+    } else if (sourceFile.fileName().endsWith("." + FileExtension.XML.name().toLowerCase())) {
+      return new TimedCityReader(new XmlCityReader(sourceFile.inputStream()), dataPrinter);
     } else {
       throw new UnsupportedOperationException(
-          "File " + file.getAbsolutePath() + " has unsupported extension.");
+          "File " + sourceFile.fileName() + " has unsupported extension.");
     }
   }
 
